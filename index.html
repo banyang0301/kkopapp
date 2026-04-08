@@ -39,6 +39,7 @@
     padding:9px 14px;
     font-size:13px;
     font-weight:700;
+    cursor:pointer;
   }
   .hero{
     background:linear-gradient(135deg,#2459d3 0%,#1d4ed8 55%,#183a9e 100%);
@@ -187,6 +188,7 @@
     padding:16px;
     font-size:16px;
     font-weight:900;
+    cursor:pointer;
   }
   .btn-primary{
     background:#2f63d6;
@@ -364,6 +366,11 @@ function getAccount(){
   return `꼽서은행 1000-${Math.floor(1000 + Math.random()*9000)}-${Math.floor(1000 + Math.random()*9000)}`;
 }
 
+function getBalance(pickedAmount){
+  const baseBalance = Math.floor(Math.random() * 5000) + 100;
+  return baseBalance + pickedAmount.krw;
+}
+
 function check(){
   const reasons = [
     "은은하게 꼽 주는 능력이 감지되었습니다.",
@@ -382,7 +389,8 @@ function check(){
     account: getAccount(),
     receiptNo: getReceiptNo(),
     approvedAt: getNowText(),
-    owner: (document.getElementById("name").value.trim() || "익명") + "님"
+    owner: (document.getElementById("name").value.trim() || "익명") + "님",
+    balance: getBalance(pickedAmount)
   };
 
   document.getElementById("result").innerHTML = `
@@ -425,11 +433,17 @@ function pay(){
           <div class="transfer-amount">${data.amountLabel}</div>
           <div class="transfer-desc">
             ${data.owner} 명의의 계좌로 정상 입금되었습니다.<br>
+            입금 계좌 ${data.account}<br>
+            현재 잔액 ${data.balance.toLocaleString()}원<br>
             꼽좀그만주쎠
           </div>
         </div>
 
-        <div class="receipt">
+        <button id="receiptToggleBtn" class="btn btn-primary" style="margin-top:14px;" onclick="toggleReceipt(event)">
+          명세서 보기
+        </button>
+
+        <div class="receipt" id="receiptBox" style="display:none;">
           <div class="receipt-title">거래 명세서</div>
 
           <div class="row">
@@ -440,6 +454,11 @@ function pay(){
           <div class="row">
             <div class="row-label">예금주</div>
             <div class="row-value">${data.owner}</div>
+          </div>
+
+          <div class="row">
+            <div class="row-label">현재 잔액</div>
+            <div class="row-value">${data.balance.toLocaleString()}원</div>
           </div>
 
           <div class="row">
@@ -469,6 +488,21 @@ function pay(){
       </div>
     </div>
   `;
+}
+
+function toggleReceipt(event){
+  const el = document.getElementById("receiptBox");
+  const btn = document.getElementById("receiptToggleBtn");
+
+  if(!el || !btn) return;
+
+  if(el.style.display === "none"){
+    el.style.display = "block";
+    btn.innerText = "명세서 닫기";
+  }else{
+    el.style.display = "none";
+    btn.innerText = "명세서 보기";
+  }
 }
 
 function resetAll(){
