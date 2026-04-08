@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>꼽난지원금</title>
+<style>
+body {font-family:sans-serif;background:#f1f5f9;margin:0;display:flex;justify-content:center;align-items:center;height:100vh;}
+.card{background:#fff;border-radius:20px;padding:24px;width:360px;box-shadow:0 10px 30px rgba(0,0,0,0.1);text-align:center;}
+button{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;cursor:pointer;margin-top:10px;}
+.primary{background:#2563eb;color:#fff;}
+.dark{background:#111;color:#fff;}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>꼽난지원금</h2>
+<input id="name" placeholder="이름 입력" style="width:100%;padding:10px;border-radius:10px;border:1px solid #ccc;margin-top:10px;">
+<div id="result" style="margin-top:20px;"></div>
+<button class="primary" onclick="check()">자격 확인</button>
+<button class="dark" onclick="pay()">지원금 받기</button>
+</div>
+
+<script>
+let current = null;
+
+function rand(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+function check(){
+  const reasons=[
+    "은은하게 꼽 주는 능력이 감지되었습니다.",
+    "단톡방 긁기 지수가 기준 초과입니다.",
+    "묘하게 킹받게 만드는 재능 보유자입니다."
+  ];
+  const units=[1,2,3,5,10];
+  const u=rand(units);
+  current={
+    name:document.getElementById("name").value||"익명",
+    units:u,
+    krw:u*500,
+    reason:rand(reasons),
+    account:`꼽서은행 1000-${Math.floor(1000+Math.random()*9000)}-${Math.floor(1000+Math.random()*9000)}`
+  };
+  document.getElementById("result").innerHTML=
+  `<p>${current.name}님 대상자입니다</p>
+   <p>${current.reason}</p>
+   <h3>${u}단위 (5천만원 기준)</h3>
+   <p>${current.krw}원</p>`;
+}
+
+function pay(){
+ if(!current)return;
+ document.getElementById("result").innerHTML=
+ `<h3>입금 완료</h3>
+  <p>${current.account}</p>
+  <p>${current.krw}원 지급</p>
+  <p>꼽좀그만주쎠</p>
+  <small>※ 5천만원 = 500원</small>`;
+}
+</script>
+</body>
+</html>
