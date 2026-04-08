@@ -4,292 +4,57 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>꼽난지원금</title>
+<!-- html2canvas CDN (이미지 캡처용) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    background:#e9eef5;
-    color:#111827;
-  }
-  .app{
-    max-width:420px;
-    min-height:100vh;
-    margin:0 auto;
-    padding:18px 16px 28px;
-    background:linear-gradient(180deg,#eef3f9 0%, #e6edf6 100%);
-  }
-  .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:14px;
-  }
-  .bank{
-    font-size:14px;
-    font-weight:800;
-    letter-spacing:.04em;
-    color:#334155;
-  }
-  .share-btn{
-    border:none;
-    background:#dbe5f3;
-    color:#1e293b;
-    border-radius:999px;
-    padding:9px 14px;
-    font-size:13px;
-    font-weight:700;
-    cursor:pointer;
-  }
-  .hero{
-    background:linear-gradient(135deg,#2459d3 0%,#1d4ed8 55%,#183a9e 100%);
-    color:white;
-    border-radius:28px;
-    padding:22px 20px 20px;
-    box-shadow:0 20px 50px rgba(37,89,211,.22);
-  }
-  .hero-sub{
-    font-size:12px;
-    opacity:.82;
-    margin-bottom:6px;
-    letter-spacing:.08em;
-  }
-  .hero-title{
-    font-size:34px;
-    font-weight:900;
-    line-height:1.05;
-    margin:0 0 14px;
-  }
-  .welcome-box{
-    background:rgba(255,255,255,.12);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:22px;
-    padding:16px;
-    backdrop-filter: blur(10px);
-  }
-  .welcome-text{
-    font-size:22px;
-    font-weight:900;
-    line-height:1.35;
-  }
-  .welcome-sub{
-    margin-top:8px;
-    font-size:13px;
-    opacity:.85;
-    line-height:1.5;
-  }
-  .panel{
-    margin-top:16px;
-    background:#fff;
-    border-radius:28px;
-    padding:18px;
-    box-shadow:0 16px 40px rgba(15,23,42,.08);
-  }
-  .section-title{
-    font-size:15px;
-    font-weight:800;
-    color:#475569;
-    margin-bottom:10px;
-  }
-  .input{
-    width:100%;
-    border:1px solid #d7deea;
-    background:#f8fbff;
-    border-radius:16px;
-    padding:15px 14px;
-    font-size:16px;
-    outline:none;
-  }
-  .input:focus{
-    border-color:#2459d3;
-    background:#fff;
-  }
-  .notice{
-    margin-top:10px;
-    font-size:12px;
-    color:#64748b;
-    line-height:1.45;
-  }
-  .result-card{
-    margin-top:16px;
-    background:#f8fbff;
-    border:1px solid #e2e8f0;
-    border-radius:22px;
-    padding:18px;
-  }
-  .status-chip{
-    display:inline-block;
-    padding:7px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:800;
-    background:#e5eefc;
-    color:#1d4ed8;
-    margin-bottom:10px;
-  }
-  .headline{
-    font-size:28px;
-    font-weight:900;
-    line-height:1.2;
-    margin:0 0 10px;
-  }
-  .reason{
-    font-size:15px;
-    color:#334155;
-    line-height:1.55;
-    margin:0 0 16px;
-  }
-  .money{
-    font-size:32px;
-    font-weight:900;
-    line-height:1.15;
-    margin:0;
-  }
-  .sub{
-    font-size:13px;
-    color:#64748b;
-    margin-top:8px;
-    line-height:1.5;
-  }
-  .grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-top:14px;
-  }
-  .mini{
-    background:white;
-    border:1px solid #e5e7eb;
-    border-radius:18px;
-    padding:14px;
-    text-align:left;
-  }
-  .mini-label{
-    font-size:12px;
-    color:#64748b;
-    margin-bottom:6px;
-  }
-  .mini-value{
-    font-size:18px;
-    font-weight:900;
-    color:#0f172a;
-    line-height:1.25;
-  }
-  .actions{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    margin-top:16px;
-  }
-  .btn{
-    width:100%;
-    border:none;
-    border-radius:18px;
-    padding:16px;
-    font-size:16px;
-    font-weight:900;
-    cursor:pointer;
-  }
-  .btn-primary{
-    background:#2f63d6;
-    color:#fff;
-  }
-  .btn-dark{
-    background:#0f172a;
-    color:#fff;
-  }
-  .btn-light{
-    background:#edf2f8;
-    color:#334155;
-  }
-  .success{
-    margin-top:16px;
-    background:#ffffff;
-    border-radius:24px;
-    overflow:hidden;
-    box-shadow:0 16px 40px rgba(15,23,42,.08);
-    border:1px solid #e5e7eb;
-  }
-  .success-top{
-    background:linear-gradient(135deg,#16a34a 0%,#22c55e 100%);
-    color:white;
-    padding:18px;
-  }
-  .success-chip{
-    font-size:12px;
-    font-weight:800;
-    opacity:.9;
-    margin-bottom:6px;
-  }
-  .success-title{
-    font-size:28px;
-    font-weight:900;
-    line-height:1.1;
-    margin:0;
-  }
-  .success-body{
-    padding:18px;
-    background:#fff;
-  }
-  .transfer-box{
-    border-radius:20px;
-    background:#f0fdf4;
-    border:1px solid #d1fae5;
-    padding:16px;
-  }
-  .transfer-amount{
-    font-size:30px;
-    font-weight:900;
-    color:#14532d;
-    line-height:1.15;
-  }
-  .transfer-desc{
-    margin-top:8px;
-    font-size:14px;
-    color:#166534;
-    line-height:1.55;
-  }
-  .receipt{
-    margin-top:14px;
-    border-radius:20px;
-    background:#f8fafc;
-    border:1px dashed #cbd5e1;
-    padding:16px;
-  }
-  .receipt-title{
-    font-size:14px;
-    font-weight:900;
-    margin-bottom:12px;
-    color:#0f172a;
-  }
-  .row{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    padding:8px 0;
-    border-bottom:1px solid #e5e7eb;
-    font-size:14px;
-  }
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#e9eef5;color:#111827;}
+  .app{max-width:420px;min-height:100vh;margin:0 auto;padding:18px 16px 28px;background:linear-gradient(180deg,#eef3f9 0%, #e6edf6 100%);}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .bank{font-size:14px;font-weight:800;letter-spacing:.04em;color:#334155;}
+  .share-btn{border:none;background:#dbe5f3;color:#1e293b;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer;}
+  .hero{background:linear-gradient(135deg,#2459d3 0%,#1d4ed8 55%,#183a9e 100%);color:white;border-radius:28px;padding:22px 20px 20px;box-shadow:0 20px 50px rgba(37,89,211,.22);}
+  .hero-sub{font-size:12px;opacity:.82;margin-bottom:6px;letter-spacing:.08em;}
+  .hero-title{font-size:34px;font-weight:900;line-height:1.05;margin:0 0 14px;}
+  .welcome-box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:16px;backdrop-filter: blur(10px);}
+  .welcome-text{font-size:22px;font-weight:900;line-height:1.35;}
+  .welcome-sub{margin-top:8px;font-size:13px;opacity:.85;line-height:1.5;}
+  .panel{margin-top:16px;background:#fff;border-radius:28px;padding:18px;box-shadow:0 16px 40px rgba(15,23,42,.08);}
+  .section-title{font-size:15px;font-weight:800;color:#475569;margin-bottom:10px;}
+  .input{width:100%;border:1px solid #d7deea;background:#f8fbff;border-radius:16px;padding:15px 14px;font-size:16px;outline:none;}
+  .input:focus{border-color:#2459d3;background:#fff;}
+  .notice{margin-top:10px;font-size:12px;color:#64748b;line-height:1.45;}
+  .result-card{margin-top:16px;background:#f8fbff;border:1px solid #e2e8f0;border-radius:22px;padding:18px;}
+  .status-chip{display:inline-block;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#e5eefc;color:#1d4ed8;margin-bottom:10px;}
+  .headline{font-size:28px;font-weight:900;line-height:1.2;margin:0 0 10px;}
+  .reason{font-size:15px;color:#334155;line-height:1.55;margin:0 0 16px;}
+  .money{font-size:32px;font-weight:900;line-height:1.15;margin:0;}
+  .sub{font-size:13px;color:#64748b;margin-top:8px;line-height:1.5;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+  .mini{background:white;border:1px solid #e5e7eb;border-radius:18px;padding:14px;text-align:left;}
+  .mini-label{font-size:12px;color:#64748b;margin-bottom:6px;}
+  .mini-value{font-size:18px;font-weight:900;color:#0f172a;line-height:1.25;}
+  .actions{display:flex;flex-direction:column;gap:12px;margin-top:16px;}
+  .btn{width:100%;border:none;border-radius:18px;padding:16px;font-size:16px;font-weight:900;cursor:pointer;}
+  .btn-primary{background:#2f63d6;color:#fff;}
+  .btn-dark{background:#0f172a;color:#fff;}
+  .btn-light{background:#edf2f8;color:#334155;}
+  .success{margin-top:16px;background:#ffffff;border-radius:24px;overflow:hidden;box-shadow:0 16px 40px rgba(15,23,42,.08);border:1px solid #e5e7eb;}
+  .success-top{background:linear-gradient(135deg,#16a34a 0%,#22c55e 100%);color:white;padding:18px;}
+  .success-chip{font-size:12px;font-weight:800;opacity:.9;margin-bottom:6px;}
+  .success-title{font-size:28px;font-weight:900;line-height:1.1;margin:0;}
+  .success-body{padding:18px;background:#fff;}
+  .transfer-box{border-radius:20px;background:#f0fdf4;border:1px solid #d1fae5;padding:16px;}
+  .transfer-amount{font-size:30px;font-weight:900;color:#14532d;line-height:1.15;}
+  .transfer-desc{margin-top:8px;font-size:14px;color:#166534;line-height:1.55;}
+  .receipt{margin-top:14px;border-radius:20px;background:#f8fafc;border:1px dashed #cbd5e1;padding:16px;}
+  .receipt-title{font-size:14px;font-weight:900;margin-bottom:12px;color:#0f172a;}
+  .row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #e5e7eb;font-size:14px;}
   .row:last-child{border-bottom:none}
   .row-label{color:#64748b}
-  .row-value{
-    font-weight:800;
-    color:#0f172a;
-    text-align:right;
-    word-break:break-all;
-  }
-  .footer-note{
-    margin-top:14px;
-    font-size:12px;
-    color:#64748b;
-    line-height:1.5;
-  }
-  .parody{
-    margin-top:10px;
-    font-size:11px;
-    color:#94a3b8;
-    text-align:center;
-  }
+  .row-value{font-weight:800;color:#0f172a;text-align:right;word-break:break-all}
+  .footer-note{margin-top:14px;font-size:12px;color:#64748b;line-height:1.5;}
+  .parody{margin-top:10px;font-size:11px;color:#94a3b8;text-align:center;}
 </style>
 </head>
 <body>
@@ -298,7 +63,6 @@
       <div class="bank">KKOB SEO BANK</div>
       <button class="share-btn" onclick="shareResult()">공유</button>
     </div>
-
     <div class="hero">
       <div class="hero-sub">MOBILE BANKING</div>
       <h1 class="hero-title">꼽난지원금</h1>
@@ -307,262 +71,119 @@
         <div class="welcome-sub">이름을 입력하고 자격을 확인한 뒤 지원금을 받아보시오.</div>
       </div>
     </div>
-
     <div class="panel">
       <div class="section-title">신청자 이름</div>
       <input id="name" class="input" placeholder="이름 입력" />
       <div class="notice">이름은 결과와 공유 문구에 같이 표시됩니다.</div>
-
       <div id="result"></div>
-
       <div class="actions">
         <button class="btn btn-primary" onclick="check()">자격 확인</button>
         <button class="btn btn-dark" onclick="pay()">지원금 받기</button>
         <button class="btn btn-light" onclick="resetAll()">다시 조회</button>
       </div>
-
       <div class="parody">패러디 화면 · 실제 금융 서비스와 무관</div>
     </div>
   </div>
 
 <script>
 let data = null;
-
-function rand(arr){
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-const amountOptions = [
-  { label: "1천만 꼽난지원금", krw: 1 },
-  { label: "2천만 꼽난지원금", krw: 2 },
-  { label: "5천만 꼽난지원금", krw: 5 },
-  { label: "1억 꼽난지원금", krw: 10 },
-  { label: "2억 꼽난지원금", krw: 20 },
-  { label: "5억 꼽난지원금", krw: 50 },
-  { label: "10억 꼽난지원금", krw: 100 },
-  { label: "50억 꼽난지원금", krw: 500 },
-  { label: "100억 꼽난지원금", krw: 1000 },
-  { label: "1조 꼽난지원금", krw: 10000 },
-  { label: "2조 꼽난지원금", krw: 20000 },
-  { label: "5조 꼽난지원금", krw: 50000 },
+function rand(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+const amountOptions = [ /* 기존 amountOptions 그대로 */ 
+  { label: "1천만 꼽난지원금", krw: 1 }, { label: "2천만 꼽난지원금", krw: 2 }, { label: "5천만 꼽난지원금", krw: 5 },
+  { label: "1억 꼽난지원금", krw: 10 }, { label: "2억 꼽난지원금", krw: 20 }, { label: "5억 꼽난지원금", krw: 50 },
+  { label: "10억 꼽난지원금", krw: 100 }, { label: "50억 꼽난지원금", krw: 500 }, { label: "100억 꼽난지원금", krw: 1000 },
+  { label: "1조 꼽난지원금", krw: 10000 }, { label: "2조 꼽난지원금", krw: 20000 }, { label: "5조 꼽난지원금", krw: 50000 },
   { label: "5조 5억 꼽난지원금", krw: 50050 }
 ];
-
-function getNowText(){
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth()+1).padStart(2,"0");
-  const d = String(now.getDate()).padStart(2,"0");
-  const hh = String(now.getHours()).padStart(2,"0");
-  const mm = String(now.getMinutes()).padStart(2,"0");
-  return `${y}.${m}.${d} ${hh}:${mm}`;
+function getNowText(){ /* 기존 그대로 */ 
+  const now = new Date(); const y=now.getFullYear(), m=String(now.getMonth()+1).padStart(2,"0"), d=String(now.getDate()).padStart(2,"0"),
+  hh=String(now.getHours()).padStart(2,"0"), mm=String(now.getMinutes()).padStart(2,"0"); return `${y}.${m}.${d} ${hh}:${mm}`;
 }
+function getReceiptNo(){ return `KKB-${Math.floor(100000 + Math.random()*900000)}-${Math.floor(100000 + Math.random()*900000)}`; }
+function getAccount(){ return `꼽서은행 1000-${Math.floor(1000 + Math.random()*9000)}-${Math.floor(1000 + Math.random()*9000)}`; }
+function getBalance(pickedAmount){ const base = Math.floor(Math.random() * 5000) + 100; return base + pickedAmount.krw; }
 
-function getReceiptNo(){
-  return `KKB-${Math.floor(100000 + Math.random()*900000)}-${Math.floor(100000 + Math.random()*900000)}`;
-}
-
-function getAccount(){
-  return `꼽서은행 1000-${Math.floor(1000 + Math.random()*9000)}-${Math.floor(1000 + Math.random()*9000)}`;
-}
-
-function getBalance(pickedAmount){
-  const baseBalance = Math.floor(Math.random() * 5000) + 100;
-  return baseBalance + pickedAmount.krw;
-}
-
-function check(){
-  const reasons = [
-    "은은하게 꼽 주는 능력이 감지되었습니다.",
-    "단톡방 킹받음 유발자로 확인되었습니다.",
-    "묘하게 긁는 재능이 인정되었습니다.",
-    "친구 모임 내 미묘한 한마디 추가 이력이 확인되었습니다."
-  ];
-
+function check(){ /* 기존 check() 그대로 */ 
+  const reasons = ["은은하게 꼽 주는 능력이 감지되었습니다.","단톡방 킹받음 유발자로 확인되었습니다.","묘하게 긁는 재능이 인정되었습니다.","친구 모임 내 미묘한 한마디 추가 이력이 확인되었습니다."];
   const pickedAmount = rand(amountOptions);
-
-  data = {
-    name: document.getElementById("name").value.trim() || "익명",
-    amountLabel: pickedAmount.label,
-    krw: pickedAmount.krw,
-    reason: rand(reasons),
-    account: getAccount(),
-    receiptNo: getReceiptNo(),
-    approvedAt: getNowText(),
-    owner: (document.getElementById("name").value.trim() || "익명") + "님",
-    balance: getBalance(pickedAmount)
-  };
-
-  document.getElementById("result").innerHTML = `
-    <div class="result-card">
-      <div class="status-chip">심사 완료</div>
-      <h2 class="headline">${data.name}님 대상자입니다</h2>
-      <p class="reason">${data.reason}</p>
-      <p class="money">${data.amountLabel}</p>
-      <div class="sub">원화 환산 ${data.krw.toLocaleString()}원</div>
-
-      <div class="grid">
-        <div class="mini">
-          <div class="mini-label">지급 예정</div>
-          <div class="mini-value">${data.amountLabel}</div>
-        </div>
-        <div class="mini">
-          <div class="mini-label">원화 환산</div>
-          <div class="mini-value">${data.krw.toLocaleString()}원</div>
-        </div>
-      </div>
-    </div>
-  `;
+  data = { name: document.getElementById("name").value.trim() || "익명", amountLabel: pickedAmount.label, krw: pickedAmount.krw, reason: rand(reasons),
+    account: getAccount(), receiptNo: getReceiptNo(), approvedAt: getNowText(), owner: (document.getElementById("name").value.trim() || "익명") + "님",
+    balance: getBalance(pickedAmount) };
+  document.getElementById("result").innerHTML = `<div class="result-card"><div class="status-chip">심사 완료</div><h2 class="headline">${data.name}님 대상자입니다</h2><p class="reason">${data.reason}</p><p class="money">${data.amountLabel}</p><div class="sub">원화 환산 ${data.krw.toLocaleString()}원</div><div class="grid"><div class="mini"><div class="mini-label">지급 예정</div><div class="mini-value">${data.amountLabel}</div></div><div class="mini"><div class="mini-label">원화 환산</div><div class="mini-value">${data.krw.toLocaleString()}원</div></div></div></div>`;
 }
 
-function pay(){
-  if(!data){
-    alert("먼저 자격 확인을 해주세요.");
-    return;
-  }
-
+function pay(){ /* pay()는 그대로 (이미지 공유 버튼만 포함) */ 
+  if(!data){ alert("먼저 자격 확인을 해주세요."); return; }
   document.getElementById("result").innerHTML = `
     <div class="success">
-      <div class="success-top">
-        <div class="success-chip">입금 완료</div>
-        <h2 class="success-title">꼽난지원금 지급 성공</h2>
-      </div>
-
+      <div class="success-top"><div class="success-chip">입금 완료</div><h2 class="success-title">꼽난지원금 지급 성공</h2></div>
       <div class="success-body">
-        <div class="transfer-box">
-          <div class="transfer-amount">${data.amountLabel}</div>
-          <div class="transfer-desc">
-            ${data.owner} 명의의 계좌로 정상 입금되었습니다.<br>
-            입금 계좌 ${data.account}<br>
-            현재 잔액 ${data.balance.toLocaleString()}원<br>
-            꼽좀그만주쎠
-          </div>
-        </div>
-
-        <button id="receiptToggleBtn" class="btn btn-primary" style="margin-top:14px;" onclick="toggleReceipt()">
-          명세서 보기
-        </button>
-
-        <button class="btn btn-light" style="margin-top:10px;" onclick="shareReceipt()">
-          명세서 공유하기
-        </button>
-
+        <div class="transfer-box"><div class="transfer-amount">${data.amountLabel}</div><div class="transfer-desc">${data.owner} 명의의 계좌로 정상 입금되었습니다.<br>입금 계좌 ${data.account}<br>현재 잔액 ${data.balance.toLocaleString()}원<br>꼽좀그만주쎠</div></div>
+        <button id="receiptToggleBtn" class="btn btn-primary" style="margin-top:14px;" onclick="toggleReceipt(event)">명세서 보기</button>
         <div class="receipt" id="receiptBox" style="display:none;">
           <div class="receipt-title">거래 명세서</div>
-
-          <div class="row">
-            <div class="row-label">입금 계좌</div>
-            <div class="row-value">${data.account}</div>
-          </div>
-
-          <div class="row">
-            <div class="row-label">예금주</div>
-            <div class="row-value">${data.owner}</div>
-          </div>
-
-          <div class="row">
-            <div class="row-label">현재 잔액</div>
-            <div class="row-value">${data.balance.toLocaleString()}원</div>
-          </div>
-
-          <div class="row">
-            <div class="row-label">지급 금액</div>
-            <div class="row-value">${data.amountLabel}</div>
-          </div>
-
-          <div class="row">
-            <div class="row-label">원화 환산</div>
-            <div class="row-value">${data.krw.toLocaleString()}원</div>
-          </div>
-
-          <div class="row">
-            <div class="row-label">거래 시각</div>
-            <div class="row-value">${data.approvedAt}</div>
-          </div>
-
-          <div class="row">
-            <div class="row-label">거래 번호</div>
-            <div class="row-value">${data.receiptNo}</div>
-          </div>
+          <div class="row"><div class="row-label">입금 계좌</div><div class="row-value">${data.account}</div></div>
+          <div class="row"><div class="row-label">예금주</div><div class="row-value">${data.owner}</div></div>
+          <div class="row"><div class="row-label">현재 잔액</div><div class="row-value">${data.balance.toLocaleString()}원</div></div>
+          <div class="row"><div class="row-label">지급 금액</div><div class="row-value">${data.amountLabel}</div></div>
+          <div class="row"><div class="row-label">원화 환산</div><div class="row-value">${data.krw.toLocaleString()}원</div></div>
+          <div class="row"><div class="row-label">거래 시각</div><div class="row-value">${data.approvedAt}</div></div>
+          <div class="row"><div class="row-label">거래 번호</div><div class="row-value">${data.receiptNo}</div></div>
+          <!-- 이미지 공유 버튼 -->
+          <button onclick="shareReceipt()" class="btn btn-light" style="margin-top:14px;width:100%;font-size:15px;">📸 명세서 이미지 공유하기</button>
         </div>
-
-        <div class="footer-note">
-          꼽난지원금의 화폐가치는 환산 기준에 따라 원화로 표시됩니다.
-        </div>
+        <div class="footer-note">꼽난지원금의 화폐가치는 환산 기준에 따라 원화로 표시됩니다.</div>
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
-function toggleReceipt(){
-  const el = document.getElementById("receiptBox");
-  const btn = document.getElementById("receiptToggleBtn");
-
+function toggleReceipt(event){ /* 기존 toggleReceipt 그대로 */ 
+  const el = document.getElementById("receiptBox"); const btn = document.getElementById("receiptToggleBtn");
   if(!el || !btn) return;
-
-  if(el.style.display === "none"){
-    el.style.display = "block";
-    btn.innerText = "명세서 닫기";
-  }else{
-    el.style.display = "none";
-    btn.innerText = "명세서 보기";
-  }
+  if(el.style.display === "none"){ el.style.display = "block"; btn.innerText = "명세서 닫기"; }
+  else{ el.style.display = "none"; btn.innerText = "명세서 보기"; }
 }
 
-function resetAll(){
-  data = null;
-  document.getElementById("result").innerHTML = "";
-}
+function resetAll(){ data = null; document.getElementById("result").innerHTML = ""; }
 
-async function shareResult(){
+async function shareResult(){ /* 기존 shareResult 그대로 */ 
   const name = document.getElementById("name").value.trim() || "익명";
-  const text = data
-    ? `${name}님은 ${data.amountLabel} 지급 대상입니다. 원화 환산 ${data.krw.toLocaleString()}원`
-    : `${name}님의 꼽난지원금 자격을 확인해보세요.`;
-
+  const text = data ? `${name}님은 ${data.amountLabel} 지급 대상입니다. 원화 환산 ${data.krw.toLocaleString()}원` : `${name}님의 꼽난지원금 자격을 확인해보세요.`;
   try{
-    if(navigator.share){
-      await navigator.share({
-        title:"꼽난지원금",
-        text,
-        url:window.location.href
-      });
-    }else{
-      await navigator.clipboard.writeText(text + "\\n" + window.location.href);
-      alert("공유 문구가 복사되었습니다.");
-    }
+    if(navigator.share){ await navigator.share({title:"꼽난지원금", text, url:window.location.href}); }
+    else{ await navigator.clipboard.writeText(text + "\n" + window.location.href); alert("공유 문구가 복사되었습니다."); }
   }catch(e){}
 }
 
+// ==================== ★★★ 새 이미지 공유 함수 ★★★ ====================
 async function shareReceipt(){
-  if(!data){
-    alert("먼저 지원금 지급 화면까지 진행해주세요.");
-    return;
-  }
+  if(!data){ alert("먼저 지원금을 받아주세요!"); return; }
+  const receiptEl = document.getElementById("receiptBox");
+  if(!receiptEl){ alert("명세서를 먼저 열어주세요!"); return; }
 
-  const receiptText =
-`[꼽서은행 꼽난지원금 거래 명세서]
-예금주: ${data.owner}
-입금 계좌: ${data.account}
-현재 잔액: ${data.balance.toLocaleString()}원
-지급 금액: ${data.amountLabel}
-원화 환산: ${data.krw.toLocaleString()}원
-거래 시각: ${data.approvedAt}
-거래 번호: ${data.receiptNo}
+  try {
+    const canvas = await html2canvas(receiptEl, { scale: 2, backgroundColor: "#f8fafc" });
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+    const file = new File([blob], "꼽난지원금_명세서.png", { type: "image/png" });
 
-꼽좀그만주쎠`;
-
-  try{
-    if(navigator.share){
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
       await navigator.share({
-        title: "꼽난지원금 거래 명세서",
-        text: receiptText
+        title: "꼽난지원금 명세서",
+        text: `${data.owner} 꼽난지원금 입금 완료 🎉`,
+        files: [file]
       });
-    }else{
-      await navigator.clipboard.writeText(receiptText);
-      alert("명세서가 복사되었습니다.");
+    } else {
+      // 공유 API 미지원 시 다운로드
+      const link = document.createElement("a");
+      link.download = "꼽난지원금_명세서.png";
+      link.href = URL.createObjectURL(blob);
+      link.click();
+      alert("이미지가 저장되었습니다! Threads에 직접 업로드하세요.");
     }
-  }catch(e){}
+  } catch(e) {
+    alert("이미지 생성에 실패했습니다.");
+    console.error(e);
+  }
 }
 </script>
 </body>
