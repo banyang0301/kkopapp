@@ -57,29 +57,25 @@
     font-size:34px;
     font-weight:900;
     line-height:1.05;
-    margin:0 0 18px;
+    margin:0 0 14px;
   }
-  .balance-card{
+  .welcome-box{
     background:rgba(255,255,255,.12);
     border:1px solid rgba(255,255,255,.12);
     border-radius:22px;
     padding:16px;
     backdrop-filter: blur(10px);
   }
-  .balance-label{
-    font-size:12px;
-    opacity:.8;
-    margin-bottom:8px;
-  }
-  .balance-value{
-    font-size:28px;
+  .welcome-text{
+    font-size:22px;
     font-weight:900;
-    line-height:1.1;
+    line-height:1.35;
   }
-  .balance-sub{
+  .welcome-sub{
     margin-top:8px;
     font-size:13px;
     opacity:.85;
+    line-height:1.5;
   }
   .panel{
     margin-top:16px;
@@ -143,7 +139,7 @@
     margin:0 0 16px;
   }
   .money{
-    font-size:30px;
+    font-size:32px;
     font-weight:900;
     line-height:1.15;
     margin:0;
@@ -304,10 +300,9 @@
     <div class="hero">
       <div class="hero-sub">MOBILE BANKING</div>
       <h1 class="hero-title">꼽난지원금</h1>
-      <div class="balance-card">
-        <div class="balance-label">지원금 기본 단위</div>
-        <div class="balance-value">5천만원</div>
-        <div class="balance-sub">화폐가치 5천만원당 원화 500원</div>
+      <div class="welcome-box">
+        <div class="welcome-text">꼽서의 꼽난지원금 지원처에<br>오신것을 환영하오</div>
+        <div class="welcome-sub">이름을 입력하고 자격을 확인한 뒤 지원금을 받아보시오.</div>
       </div>
     </div>
 
@@ -335,9 +330,21 @@ function rand(arr){
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function formatKkob(units){
-  return `${units * 5}천만 꼽난지원금`;
-}
+const amountOptions = [
+  { label: "1천만 꼽난지원금", krw: 100 },
+  { label: "2천만 꼽난지원금", krw: 200 },
+  { label: "5천만 꼽난지원금", krw: 500 },
+  { label: "1억 꼽난지원금", krw: 1000 },
+  { label: "2억 꼽난지원금", krw: 2000 },
+  { label: "5억 꼽난지원금", krw: 5000 },
+  { label: "10억 꼽난지원금", krw: 10000 },
+  { label: "50억 꼽난지원금", krw: 50000 },
+  { label: "100억 꼽난지원금", krw: 100000 },
+  { label: "1조 꼽난지원금", krw: 1000000 },
+  { label: "2조 꼽난지원금", krw: 2000000 },
+  { label: "5조 꼽난지원금", krw: 5000000 },
+  { label: "5조 5억 꼽난지원금", krw: 5005000 }
+];
 
 function getNowText(){
   const now = new Date();
@@ -365,13 +372,12 @@ function check(){
     "친구 모임 내 미묘한 한마디 추가 이력이 확인되었습니다."
   ];
 
-  const unitsArr = [1, 2, 3, 5, 10];
-  const u = rand(unitsArr);
+  const pickedAmount = rand(amountOptions);
 
   data = {
     name: document.getElementById("name").value.trim() || "익명",
-    units: u,
-    krw: u * 500,
+    amountLabel: pickedAmount.label,
+    krw: pickedAmount.krw,
     reason: rand(reasons),
     account: getAccount(),
     receiptNo: getReceiptNo(),
@@ -384,16 +390,16 @@ function check(){
       <div class="status-chip">심사 완료</div>
       <h2 class="headline">${data.name}님 대상자입니다</h2>
       <p class="reason">${data.reason}</p>
-      <p class="money">${formatKkob(data.units)}</p>
-      <div class="sub">원화 환산 ${data.krw.toLocaleString()}원 · 1단위 = 5천만원</div>
+      <p class="money">${data.amountLabel}</p>
+      <div class="sub">원화 환산 ${data.krw.toLocaleString()}원</div>
 
       <div class="grid">
         <div class="mini">
-          <div class="mini-label">지급 단위</div>
-          <div class="mini-value">${data.units}단위</div>
+          <div class="mini-label">지급 예정</div>
+          <div class="mini-value">${data.amountLabel}</div>
         </div>
         <div class="mini">
-          <div class="mini-label">환산 금액</div>
+          <div class="mini-label">원화 환산</div>
           <div class="mini-value">${data.krw.toLocaleString()}원</div>
         </div>
       </div>
@@ -416,7 +422,7 @@ function pay(){
 
       <div class="success-body">
         <div class="transfer-box">
-          <div class="transfer-amount">${formatKkob(data.units)}</div>
+          <div class="transfer-amount">${data.amountLabel}</div>
           <div class="transfer-desc">
             ${data.owner} 명의의 계좌로 정상 입금되었습니다.<br>
             꼽좀그만주쎠
@@ -438,7 +444,7 @@ function pay(){
 
           <div class="row">
             <div class="row-label">지급 금액</div>
-            <div class="row-value">${formatKkob(data.units)}</div>
+            <div class="row-value">${data.amountLabel}</div>
           </div>
 
           <div class="row">
@@ -458,7 +464,7 @@ function pay(){
         </div>
 
         <div class="footer-note">
-          꼽난지원금의 화폐가치는 5천만원당 원화 500원입니다.
+          꼽난지원금의 화폐가치는 환산 기준에 따라 원화로 표시됩니다.
         </div>
       </div>
     </div>
@@ -473,7 +479,7 @@ function resetAll(){
 async function shareResult(){
   const name = document.getElementById("name").value.trim() || "익명";
   const text = data
-    ? `${name}님은 ${formatKkob(data.units)} 지급 대상입니다. 원화 환산 ${data.krw.toLocaleString()}원`
+    ? `${name}님은 ${data.amountLabel} 지급 대상입니다. 원화 환산 ${data.krw.toLocaleString()}원`
     : `${name}님의 꼽난지원금 자격을 확인해보세요.`;
 
   try{
